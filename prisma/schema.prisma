@@ -12,6 +12,23 @@ model User {
   name     String
   email    String @unique
   password String
+  Imobi   Imobi[]
 
   @@map("users")
+}
+
+model Imobi {
+  id          Int      @id @default(autoincrement())
+  tipo        String?
+  thumb       String?
+  endereco    String?
+  cidade      String?
+  uf          String?
+  valor       String?
+  descricao   String?
+  userId      Int
+  created_at  DateTime @default(now())
+  author      User     @relation(fields: [userId], references: [id])
+
+  @@map("imoveis")
 }
