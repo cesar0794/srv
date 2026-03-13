@@ -20,5 +20,7 @@ router.post(
 );
 router.get("/listimobi", ImobiController.findAllImobi);
 router.get("/listimobi/:slug", ImobiController.findImobi);
+router.post("/createmessage", MessageController.createMessage);
+router.get("/listmessage/:id", MessageController.findMessage);
 
 export { router };

@@ -4,35 +4,47 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-   url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   name     String
-  email    String @unique
+  email    String     @unique
   password String
-  Imobi   Imobi[]
+  Imobi    Imobi[]
+  messages Messages[]
 
   @@map("users")
 }
 
 model Imobi {
-  id          Int      @id @default(autoincrement())
-  tipo        String?
-  thumb       String?
-  endereco    String?
-  cidade      String?
-  uf          String?
-  valor       String?
-  descricao   String? @db.VarChar(255)
-  name   String?
-  email   String?
+  id         Int      @id @default(autoincrement())
+  tipo       String?
+  thumb      String?
+  endereco   String?
+  cidade     String?
+  uf         String?
+  valor      String?
+  descricao  String?  @db.VarChar(255)
+  name       String?
+  email      String?
   telefone   String?
-  slug   String?
-  userId      Int
-  created_at  DateTime @default(now())
-  author      User     @relation(fields: [userId], references: [id])
+  slug       String?
+  userId     Int
+  created_at DateTime @default(now())
+  author     User     @relation(fields: [userId], references: [id])
 
   @@map("imoveis")
+}
+
+model Messages {
+  id              Int    @id @default(autoincrement())
+  client_name     String
+  client_email    String
+  client_mensagem String
+  userId          Int
+  author          User   @relation(fields: [userId], references: [id])
+
+  @@map("messages")
 }
