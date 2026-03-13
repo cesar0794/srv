@@ -25,7 +25,11 @@ model Imobi {
   cidade      String?
   uf          String?
   valor       String?
-  descricao   String?
+  descricao   String? @db.VarChar(255)
+  name   String?
+  email   String?
+  telefone   String?
+  slug   String?
   userId      Int
   created_at  DateTime @default(now())
   author      User     @relation(fields: [userId], references: [id])

@@ -5,12 +5,33 @@ export default {
   async createImobi(request, response) {
     try {
       const thumb = request.file.filename;
-      const { id, tipo, endereco, cidade, uf, valor, descricao } = request.body;
+      const {
+        id,
+        name,
+        email,
+        telefone,
+        tipo,
+        endereco,
+        cidade,
+        uf,
+        valor,
+        descricao,
+      } = request.body;
 
       const user = await prisma.user.findUnique({ where: { id: Number(id) } });
       if (!user) {
         return response.json({ message: "Usuário não encontrado" });
       }
+      const slugify = (str) =>
+        str
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
+      const slug = slugify(tipo);
+
       const imobi = await prisma.imobi.create({
         data: {
           thumb,
@@ -20,6 +41,10 @@ export default {
           uf,
           valor,
           descricao,
+          name,
+          email,
+          telefone,
+          slug,
           userId: user.id,
         },
       });
@@ -41,10 +66,10 @@ export default {
 
   async findImobi(request, response) {
     try {
-      const { id } = request.params;
+      const { slug } = request.params;
 
-      const imobi = await prisma.imobi.findUnique({
-        where: { id: Number(id) },
+      const imobi = await prisma.imobi.findFirst({
+        where: { slug: slug },
       });
 
       if (!imobi) {

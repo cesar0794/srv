@@ -19,6 +19,6 @@ router.post(
   ImobiController.createImobi,
 );
 router.get("/listimobi", ImobiController.findAllImobi);
-router.get("/listimobi/:id", ImobiController.findImobi);
+router.get("/listimobi/:slug", ImobiController.findImobi);
 
 export { router };
